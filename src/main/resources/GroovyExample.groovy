@@ -24,6 +24,7 @@ def router = new GRouter()
 			request.setSessionId(sid)
 			storage.put(sid, body['username'])
 			request.response.end toJson(true)
+			return
 		} 
 		request.response.end toJson(false)
 	}
