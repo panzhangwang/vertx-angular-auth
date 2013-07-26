@@ -32,7 +32,7 @@ def router = new GRouter()
 	}
 	.get("/auth/user") {request, next ->
 	    def uname = storage.get(request.sessionId == null ? "" : request.sessionId)
-	    request.response.end ([username: uname, sessionId: request.sessionId])
+	    request.response.end toJson([username: uname, sessionId: request.sessionId])
 	}
 	.post("/auth/logout") {request ->
 		def sid = request.getSessionId()
