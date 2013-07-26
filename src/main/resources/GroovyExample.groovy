@@ -2,9 +2,7 @@ import com.jetdrone.vertx.yoke.middleware.*
 import com.jetdrone.vertx.yoke.GYoke
 import com.jetdrone.vertx.yoke.engine.GroovyTemplateEngine
 import com.jetdrone.vertx.yoke.util.Utils
-import org.vertx.java.core.json.JsonObject
 
-import javax.crypto.Mac
 import static groovy.json.JsonOutput.toJson
 import static java.util.UUID.randomUUID
 
@@ -52,14 +50,13 @@ def secHandler = { request, next ->
 }
 
 def server = vertx.createHttpServer()
-def eb = vertx.eventBus
 
-new GYoke(vertx)
+new GYoke(vertx, container.logger)
   .engine('html', new GroovyTemplateEngine())
   .use(new ErrorHandler(true))
   .use(new CookieParser(secret))
   .use(new Session(secret))
-  .use(new Logger(container.logger))
+  .use(new Logger())
   .use(new BridgeSecureHandler("auth_address", "session.store" ))
   .use(new BodyParser())
   .use("/static", new Static(".")) 
